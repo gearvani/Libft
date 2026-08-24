@@ -6,7 +6,7 @@
 /*   By: georgios-arvanitidis <georgios-arvaniti    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/25 14:47:20 by gearvani          #+#    #+#             */
-/*   Updated: 2026/08/18 20:32:33 by georgios-ar      ###   ########.fr       */
+/*   Updated: 2026/08/21 14:29:15 by georgios-ar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ char	*ft_strrchr(const char *s, int c)
 
 	i = 0;
 	ch = (char)c;
-	while (!s[i])
+	while (s[i])
+		i++;
+	while (i >= 0)
 	{
 		if (s[i] == ch)
 			return ((char *)s + i);
-		i++;
+		i--;
 	}
-	if (ch == '\0')
-		return ((char *)s + i);
 	return (NULL);
 }

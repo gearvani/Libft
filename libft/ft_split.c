@@ -6,7 +6,7 @@
 /*   By: georgios-arvanitidis <georgios-arvaniti    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/01 16:00:01 by georgios-ar       #+#    #+#             */
-/*   Updated: 2026/08/18 19:12:21 by georgios-ar      ###   ########.fr       */
+/*   Updated: 2026/08/21 18:03:50 by georgios-ar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	word_count(const char *str, char sep)
 
 	count_word = 1;
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 	{
 		if (str[i] == sep)
@@ -36,22 +38,19 @@ int	word_count(const char *str, char sep)
 	return (count_word);
 }
 
-void	len_word(int *word_len, const char *str, int x, char sep)
-{
-	while (str[x] != sep && str[x])
-	{
-		x++;
-		(*word_len)++;
-	}
-}
-
 char	*fill_word(int *x, const char *str, char sep, int *word_len)
 {
 	int		i;
 	char	*result;
+	int		y;
 
+	y = 0;
 	i = 0;
-	len_word (word_len, str, (*x), sep);
+	while (str[*x + y] != sep && str[*x + y])
+	{
+		y++;
+		(*word_len)++;
+	}
 	result = ft_calloc (((*word_len) + 1), sizeof(char));
 	if (!result)
 		return (NULL);
@@ -79,6 +78,13 @@ void	*free_split(char **result)
 	return (NULL);
 }
 
+int skip_sep(const char *str, char sep, int pos)
+{
+	while (str[pos] == sep && str[pos])
+		pos++;
+	return(pos);
+}
+
 char	**ft_split(const char *str, char sep)
 {
 	char	**result;
@@ -89,9 +95,10 @@ char	**ft_split(const char *str, char sep)
 	word_len = 0;
 	x = 0;
 	y = 0;
-	while (str[x] == sep && str[x])
-		x++;
-	result = ft_calloc(word_count(str, sep), sizeof (char *));
+	if (!str)
+		return (NULL);
+	x = skip_sep(str, sep, x);
+	result = ft_calloc(word_count(str, sep) + 1, sizeof (char *));
 	if (!result)
 		return (NULL);
 	while (str[x])
@@ -101,9 +108,23 @@ char	**ft_split(const char *str, char sep)
 			return (free_split(result));
 		y++;
 		word_len = 0;
-		while (str[x] == sep && str[x])
-			x++;
+		x = skip_sep(str, sep, x);
 	}
-	result[y] = NULL;
 	return (result);
 }
+
+
+/*int main()
+{
+	int i;
+	i = 0;
+	char **result = ft_split("Hallo", 'l');
+	if (!result)
+		return (1);
+	while (result[i])
+	{
+		printf("%s", result[i]);
+		i++;
+	}
+	free_split(result);
+}*/

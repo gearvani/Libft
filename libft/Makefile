@@ -38,4 +38,7 @@ fclean: clean
 
 re: fclean all
 
+so:
+	$(CC) -nostartfiles -fPIC $(CFLAGS) *.c -shared -o libft.so
+
 .PHONY: all clean fclean re bonus

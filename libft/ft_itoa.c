@@ -6,7 +6,7 @@
 /*   By: georgios-arvanitidis <georgios-arvaniti    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/01 17:15:58 by georgios-ar       #+#    #+#             */
-/*   Updated: 2026/08/18 18:26:23 by georgios-ar      ###   ########.fr       */
+/*   Updated: 2026/08/22 17:31:15 by georgios-ar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int	nbr_len(int long n)
 	i = 1;
 	faktor = 10;
 	len = 0;
-	while (n > i)
+	if (n == 0)
+		return(1);
+	while (n >= i)
 	{
 		i = (i * faktor);
 		len++;
@@ -73,7 +75,7 @@ char	*ft_itoa(int n)
 	int				sign;
 
 	if (n == -2147483648)
-		return ("-2147483648");
+		return (ft_strdup("-2147483648"));
 	sign = 0;
 	nbr = pre_conv(n, &sign);
 	if (sign == 0)
@@ -83,27 +85,20 @@ char	*ft_itoa(int n)
 	if (!result)
 		return (NULL);
 	result[i] = '\0';
-	i--;
+	if (nbr == 0)
+		result[i - 1] = '0';
 	while (nbr != 0)
 	{
+		i--;
 		result[i] = ((nbr % 10) + '0');
 		nbr = nbr / 10;
-		i--;
 	}
 	return (result);
 }
 
-//int main()
-//{
-//	char *result = ft_itoa(2102);
-//	printf("%s", result);//int main()
-//{
-//	char *result = ft_itoa(2102);
-//	printf("%s", result);
-//}
-//}
-//int main()
-//{
-//	char *result = ft_itoa(2102);
-//	printf("%s", result);
-//}
+/*int main()
+{
+	char *result = ft_itoa(-0);
+	printf("%s", result);
+	free(result);
+}*/
